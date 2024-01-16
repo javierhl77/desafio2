@@ -1,1 +1,1 @@
-[{"title":"doña paula","description":"tinto malbec","price":3500,"img":"imagen","code":"abc124","stock":24,"id":1}]
+[{"title":"doña paula","description":"tinto malbec","price":3500,"img":"imagen","code":"abc124","stock":24,"id":1},{"title":"aminga","description":"tinto malbec","price":3500,"img":"imagen","code":"abc1245","stock":24,"id":2}]
