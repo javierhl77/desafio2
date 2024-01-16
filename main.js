@@ -1,31 +1,20 @@
 
+//desafio 2 manejo de archivos File System (fs)
 
+// alumno : LEZCANO JAVIER
 import {promises as fs} from "fs";
-
-//const fs = require ('fs');
-
-//const persona = async() => {
- // await fs.writeFile("./persona.txt","hola");
-  //await fs.appendFile("./persona.txt", "bien y tu")
-  //let respuesta = await fs.readFile("./persona.txt","utf-8");
-  //console.log(respuesta);
-  //(await fs.promises.unlink("./persona.txt");
-
-//persona();
-
-//desafio2
 
 class ProductManager {
   constructor( ){
-    this.patch = "./products.txt"
-    this.products = []
+    this.patch = "./products.txt"  // se crea la ruta del archivo donde se va a alojar el array de productos
+    this.products = []     // array de productos
   }
 
   static id = 0;
 
   addProduct = async ( title,description,price,img,code,stock) => {
 
-    ProductManager.id++
+    ProductManager.id++ // id se incrementa en 1, cada vez que se agrega un produto
     let newProd = {
       title,
       description,
@@ -36,61 +25,68 @@ class ProductManager {
       id: ProductManager.id
     }
 
-    this.products.push(newProd)
+    this.products.push(newProd) // se agrega  el nuevo producto al array products
 
 
-     //console.log(newProd);
-    //await fs.writeFile( this.patch, "holla como estas")
+   // 
     await fs.writeFile( this.patch, JSON.stringify(this.products))
 
   }
-  readProducts = async () => {
+  // readProducto : funcion para leer el archivo y pasarlo a la variable respuesta
+  readProducto = async () => {
     let respuesta = await fs.readFile(this.patch, "utf-8")
-    return JSON.parse(respuesta);
+    return JSON.parse(respuesta); // retorna el array respuesta
   }
 
   getProducts = async ()  => {
 
-    let respuesta1 = await this.readProducts()
+    let respuesta1 = await this.readProducto()  // llama a la funcion readProducto y se asigna a la variable respuesta1 como array
     return console.log(respuesta1)  }
 
   getProductsById = async (id) => {
-     let respuesta2 = await this.readProducts()
-     let filter = respuesta2.find(product => product.id === id)
-     //console.log(filter)
-     if ( !respuesta2.find(product => product.id === id) ) {
+     let resp2 = await this.readProducto() // llama a la funcion readProducto y se asigna en resp2
+     let resultado = resp2.find(product => product.id === id) // en resultado guarda el objeto correspondiente al id
+     //console.log(resultado)
+     // chequeo con if si se cumple la condicion 
+     if ( !resp2.find(product => product.id === id) ) {
       console.log("no existe el producto")
      } else {
-      console.log(filter)
+      console.log(resultado)
      }
   }
 
 
   deleteProductById = async (id ) => {
-    let resp = await this.readProducts();
-    let prodFilter = resp.filter(products => products.id != id)
-    await fs.writeFile( this.patch, JSON.stringify(prodFilter))
+    let resp = await this.readProducto(); // paso  a resp el archivo 
+    let prodFilter = resp.filter(products => products.id != id) // en prodFilter guardo los objetos menos el que corresponde al id con filter
+    await fs.writeFile( this.patch, JSON.stringify(prodFilter)) // escribo en el archivo con el nuevo arreglo prodFilter
 
     console.log("producto eliminado");
   }
+   // *****************************
   // updateProduct : actualizar producto 
-  // ( {id, ...producto}) separo el id del resto de los atributos de producto
-  //para conservar el id
+  // ( {id, ...producto}) separo el id del resto de los atributos de producto para conservar el id
+  
   //a) eliminar producto a modificar ,usando deleteProductById
-  // b)volverlo a agregar  modificado
+  // b)volverlo a agregar con los cambios ,en un nuevo array proMod ,
 
   updateProducts = async ( {id, ...producto}) =>  {
    await this.deleteProductById(id); // borrar el producto que quiero actualizar 
-   let prod = await this.readProducts(); // prod : guarda el producto que quedo
+   let prod = await this.readProducto(); // prod : guarda el producto que quedo
   
-   let prodMod = [ {id, ...producto}, ...prod]; // formar otro 
-   console.log(prodMod);
+   let prodMod = [ {id, ...producto}, ...prod]; // formar otro array con el producto modificado + los demas productos
+   await fs.writeFile( this.patch, JSON.stringify(prodMod)); // guardo en el archivo el nuevo array( prodMod)
+
+
+   //console.log(prodMod);
   }
    
 
 
 }
-const products = new ProductManager;
+const products = new ProductManager; // crear una instancia de ProductManager
+//products.getProducts(); // devuelve array vacio
+
 products.addProduct("doña paula","tinto malbec",3500,"imagen","abc124",24);
 products.addProduct("aminga","tinto malbec",3500,"imagen","abc1245",24);
 
