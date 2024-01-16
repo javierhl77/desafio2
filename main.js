@@ -73,9 +73,18 @@ class ProductManager {
 
     console.log("producto eliminado");
   }
-  updateProducts = async (producto ) =>  {
-   console.log(producto)
+  // updateProduct : actualizar producto 
+  // ( {id, ...producto}) separo el id del resto de los atributos de producto
+  //para conservar el id
+  //a) eliminar producto a modificar ,usando deleteProductById
+  // b)volverlo a agregar  modificado
 
+  updateProducts = async ( {id, ...producto}) =>  {
+   await this.deleteProductById(id); // borrar el producto que quiero actualizar 
+   let prod = await this.readProducts(); // prod : guarda el producto que quedo
+  
+   let prodMod = [ {id, ...producto}, ...prod]; // formar otro 
+   console.log(prodMod);
   }
    
 
@@ -96,5 +105,4 @@ products.updateProducts( {
 "code":"abc1245",
 "stock":24,
 "id":2
-
 })
