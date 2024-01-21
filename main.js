@@ -3,10 +3,11 @@
 
 // alumno : LEZCANO JAVIER
 import {promises as fs} from "fs";
+import path from "path";
 
 class ProductManager {
-  constructor( ){
-    this.patch = "./products.txt"  // se crea la ruta del archivo donde se va a alojar el array de productos
+  constructor(path){
+    this.path = path; //"./products.txt"  // se crea la ruta del archivo donde se va a alojar el array de productos
     this.products = []     // array de productos
   }
 
@@ -29,12 +30,12 @@ class ProductManager {
 
 
    // 
-    await fs.writeFile( this.patch, JSON.stringify(this.products))
+    await fs.writeFile( this.path,JSON.stringify(this.products))
 
   }
   // readProducto : funcion para leer el archivo y pasarlo a la variable respuesta
   readProducto = async () => {
-    let respuesta = await fs.readFile(this.patch, "utf-8")
+    let respuesta = await fs.readFile(this.path, "utf-8")
     return JSON.parse(respuesta); // retorna el array respuesta
   }
 
@@ -59,7 +60,7 @@ class ProductManager {
   deleteProductById = async (id ) => {
     let resp = await this.readProducto(); // paso  a resp el archivo 
     let prodFilter = resp.filter(products => products.id != id) // en prodFilter guardo los objetos menos el que corresponde al id con filter
-    await fs.writeFile( this.patch, JSON.stringify(prodFilter)) // escribo en el archivo con el nuevo arreglo prodFilter
+    await fs.writeFile( this.path, JSON.stringify(prodFilter)) // escribo en el archivo con el nuevo arreglo prodFilter
 
     console.log("producto eliminado");
   }
@@ -75,7 +76,7 @@ class ProductManager {
    let prod = await this.readProducto(); // prod : guarda el producto que quedo
   
    let prodMod = [ {id, ...producto}, ...prod]; // formar otro array con el producto modificado + los demas productos
-   await fs.writeFile( this.patch, JSON.stringify(prodMod)); // guardo en el archivo el nuevo array( prodMod)
+   await fs.writeFile( this.path, JSON.stringify(prodMod)); // guardo en el archivo el nuevo array( prodMod)
 
 
    //console.log(prodMod);
@@ -86,7 +87,7 @@ class ProductManager {
 }
 
 //**********************testing */
-const products = new ProductManager; // crear una instancia de ProductManager
+const products = new ProductManager("./productos.json"); // crear una instancia de ProductManager
 //products.getProducts(); // devuelve array vacio
 
 products.addProduct("doña paula","tinto malbec",3500,"imagen","abc124",24);
