@@ -86,7 +86,7 @@ class ProductManager {
 
 }
 
-//**********************testing */
+//**********************testing **********************/
 const products = new ProductManager("./productos.json"); // crear una instancia de ProductManager
 //products.getProducts(); // devuelve array vacio
 
@@ -96,15 +96,19 @@ products.addProduct("dv catena","tinto malbec",3500,"imagen","abc1246",24);
 products.addProduct("dv catena","tinto cabernet sauvignon",3500,"imagen","abc1247",24);
 products.addProduct("atilio avena","tinto malbec",3500,"imagen","abc1248",24);
 products.addProduct("joffre","tinto malbec",3500,"imagen","abc1249",24);
+
 //products.getProducts();
-//products.getProductsById(2);
+products.getProductsById(2);
 //products.deleteProductById(1);
 
-// products.updateProducts( {
-//   "title":"aminga",
-// "description":"tinto malbec",
-// "price":6500,"img":"imagen",
-// "code":"abc1245",
-// "stock":24,
-// "id":2
-// })
+ 
+// actualizar el producto id=2 ,modificando el stock:
+
+//products.updateProducts( {
+   //"title":"aminga",
+ //"description":"tinto malbec",
+ //"price":6500,"img":"imagen",
+ //"code":"abc1245",
+ //"stock":48,
+ //"id":2
+ //})
